@@ -75,6 +75,7 @@ body {
 }
 
 .key {
+	position: relative;
 	height: 4.5vw;
 	width: 4.5vw;
 	background: #333;
@@ -98,11 +99,7 @@ body {
 	box-shadow: none;
 }
 
-.doubled {
-	position: relative;
-}
-
-.doubled>span:nth-child(1) {
+.upper {
 	position: absolute;
 	width: 1.8vw;
 	font-size: 1.08vw;
@@ -111,7 +108,7 @@ body {
 	left: 0;
 }
 
-.letter>span {
+.letter>span, .multikey>span {
   display: none;
 }
 
