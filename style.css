@@ -1,0 +1,142 @@
+*{
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+*,*:before,*:after{
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+:focus,:active{outline: none;}
+a:focus,a:active{outline: none;}
+
+nav,footer,header,aside{display: block;}
+
+html,body{
+  height: 100%;
+  width: 100%;
+  font-size: 100%;
+  line-height: 1;
+  font-size: 14px;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+input,button,textarea{font-family:inherit;}
+
+input::-ms-clear{display: none;}
+button{cursor: pointer;}
+button::-moz-focus-inner {padding:0;border:0;}
+a, a:visited{text-decoration: none;}
+a:hover{text-decoration: none;}
+ul li{list-style: none;}
+img{vertical-align: top;}
+
+h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+* {
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 500;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper {
+	width: 81.9vw;
+}
+
+.textarea {
+	height: 9.9vw;
+	width: 100%;
+  padding: 0.9vw;
+	margin-bottom: 0.9vw;
+  font-size: 1.8vw;
+	background: #111;
+	color: #eee;
+  resize: vertical;
+}
+
+.keyboard {
+	width: 100%;
+	margin-bottom: 1.8vw;
+	padding: 0.9vw;
+	border-radius: 0.45vw;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.9vw;
+	background: #666;
+}
+
+.key {
+	position: relative;
+	height: 4.5vw;
+	width: 4.5vw;
+	background: #333;
+	color: #aaa;
+	border-radius: 0.45vw;
+	font-size: 1.62vw;
+	line-height: 4.5vw;
+	text-align: center;
+	user-select: none;
+	cursor: pointer;
+	box-shadow: 0 0 0.45vw #333;
+}
+
+.key:hover {
+	opacity: 0.8;
+}
+
+.key:active {
+  opacity: 0.6;
+	color: #fff;
+	box-shadow: none;
+}
+
+.upper {
+	position: absolute;
+	width: 1.8vw;
+	font-size: 1.08vw;
+	line-height: 1.8vw;
+	top: 0;
+	left: 0;
+}
+
+.letter>span, .multikey>span {
+  display: none;
+}
+
+.show {
+  display: inline !important;
+}
+
+.dark {
+	background: #111;
+	color: #aaa;
+}
+
+.wide {
+	width: 9.9vw;
+}
+
+.ultra-wide {
+	width: 36.9vw;
+}
+
+.notation {
+	font-size: 1.125vw;
+}
+
+.notation>span {
+	background: #ccc;
+	padding: 0.225vw 0.45vw;
+	border-radius: 0.225vw;
+	font-family: monospace;
+	font-weight: bold;
+}
