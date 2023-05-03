@@ -3,7 +3,7 @@ wrapper.classList.add('wrapper')
 wrapper.innerHTML =
   '<textarea class="textarea"></textarea>' +
   '<div class="keyboard">' +
-  '<div data-code="Backquote" class="key doubled dark"><span>`</span><span class="upper">~</span></div>' +
+  '<div data-code="Backquote" class="key multikey dark"><span class="show"><span>`</span><span class="upper">~</span></span><span><span>Ё</span></span></div>' +
   '<div data-code="Digit1" class="key doubled"><span>1</span><span class="upper">!</span></div>' +
   '<div data-code="Digit2" class="key doubled"><span>2</span><span class="upper">@</span></div>' +
   '<div data-code="Digit3" class="key doubled"><span>3</span><span class="upper">#</span></div>' +
@@ -29,7 +29,7 @@ wrapper.innerHTML =
   '<div data-code="KeyO" class="key letter"><span class="show">O</span><span>Щ</span></div>' +
   '<div data-code="KeyP" class="key letter"><span class="show">P</span><span>З</span></div>' +
   '<div data-code="BracketLeft" class="key multikey"><span class="show"><span>[</span><span class="upper">{</span></span><span><span>Х</span></span></div>' +
-  '<div data-code="BracketRight" class="key multikey"><span class="show"><span>[</span><span class="upper">}</span></span><span><span>Ъ</span></span></div>' +
+  '<div data-code="BracketRight" class="key multikey"><span class="show"><span>]</span><span class="upper">}</span></span><span><span>Ъ</span></span></div>' +
   '<div data-code="Delete" class="key dark">Del</div>' +
   '<div data-code="CapsLock" class="key wide dark">Caps Lock</div>' +
   '<div data-code="KeyA" class="key letter"><span class="show">A</span><span>Ф</span></div>' +
@@ -118,23 +118,46 @@ function letterToUpper () {
 }
 
 document.addEventListener('keydown', e => {
+  TEXTAREA.focus()
   for (const letter of LETTERS) {
     if (e.code === letter.getAttribute('data-code')) {
       e.preventDefault()
-      if (toUpperRegister()) {
+      if (toUpperRegister() || letterToUpper() || e.shiftKey) {
         TEXTAREA.value += letter.innerText.toUpperCase()
       } else {
-        if (e.shiftKey) {
-          TEXTAREA.value += letter.innerText.toUpperCase()
-        } else {
-          TEXTAREA.value += letter.innerText.toLowerCase()
-        }
+        TEXTAREA.value += letter.innerText.toLowerCase()
       }
     }
   }
-  if (e.code === 'CapsLock') {
-    isCaps++
-  };
+  for (const multikey of MULTIKEYS) {
+    if (e.code === multikey.getAttribute('data-code')) {
+      e.preventDefault()
+      if (isRU % 2) {
+        if (multikey.children[1].children[1] === undefined) {
+          if (toUpperRegister() || letterToUpper() || e.shiftKey) {
+            TEXTAREA.value += multikey.children[1].children[0].innerText
+          } else {
+            TEXTAREA.value += multikey.children[1].children[0].innerText.toLowerCase()
+          }
+        } else {
+          if (letterToUpper() || e.shiftKey) {
+            TEXTAREA.value += multikey.children[1].children[1].innerText
+          } else {
+            TEXTAREA.value += multikey.children[1].children[0].innerText
+          }
+        }
+      } else {
+        if (letterToUpper() || e.shiftKey) {
+          TEXTAREA.value += multikey.children[0].children[1].innerText
+        } else {
+          TEXTAREA.value += multikey.children[0].children[0].innerText
+        }
+      }
+      isShift = 0
+    }
+  }
+  if (e.code === 'Tab') TEXTAREA.value += '    '
+  if (e.code === 'CapsLock') isCaps++
   if (e.altKey || e.code === 'Tab') e.preventDefault()
   if (e.shiftKey && e.altKey) {
     isRU++
@@ -205,7 +228,7 @@ document.querySelector('.key[data-code="Backspace"]').addEventListener('click', 
 
 // Tab
 document.querySelector('.key[data-code="Tab"]').addEventListener('click', () => {
-  TEXTAREA.value += '  '
+  TEXTAREA.value += '    '
 })
 
 // Enter
@@ -218,12 +241,14 @@ document.querySelector('.key[data-code="CapsLock"]').addEventListener('click', (
   isCaps++
 })
 
-// Shift
+// ShiftLeft & ShiftRight
 document.querySelector('.key[data-code="ShiftLeft"]').addEventListener('click', () => {
   isShift = 1
 })
+document.querySelector('.key[data-code="ShiftRight"]').addEventListener('click', () => {
+  isShift = 1
+})
 
-// Multikeys
 for (const multikey of MULTIKEYS) {
   multikey.addEventListener('click', () => {
     if (isRU % 2) {
@@ -233,14 +258,12 @@ for (const multikey of MULTIKEYS) {
         } else {
           TEXTAREA.value += multikey.children[1].children[0].innerText.toLowerCase()
         }
-        isShift = 0
       } else {
         if (letterToUpper()) {
           TEXTAREA.value += multikey.children[1].children[1].innerText
         } else {
           TEXTAREA.value += multikey.children[1].children[0].innerText
         }
-        isShift = 0
       }
     } else {
       if (letterToUpper()) {
@@ -248,7 +271,7 @@ for (const multikey of MULTIKEYS) {
       } else {
         TEXTAREA.value += multikey.children[0].children[0].innerText
       }
-      isShift = 0
     }
+    isShift = 0
   })
 }
